@@ -1,0 +1,31 @@
+# Unreal Engine .gitignore
+
+# Temporary files
+Binaries/
+DerivedDataCache/
+Intermediate/
+Saved/
+.vs/
+*.sln
+*.sdf
+*.suo
+*.VC.db
+*.VC.opendb
+
+# Built data
+Build/
+
+# Backup files
+Config/Backup/
+Config/Generated/
+
+# Built executables
+*.exe
+*.dll
+*.pdb
+
+# Local config (user settings)
+Config/DefaultEditorPerProjectUserSettings.ini
+
+# Ignore logs
+*.log
