@@ -12,6 +12,28 @@ class DEMOGAME1_API ACOAAvatar : public ACOABaseCharacter
 public:
 	ACOAAvatar();
 
+	// Stamina system (Avatar-only feature)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "COA")
+	float Stamina = 100.0f;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "COA")
+	float MaxStamina = 100.0f;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "COA")
+	float StaminaGainRate = 10.0f;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "COA")
+	float StaminaDrainRate = 20.0f;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "COA")
+	bool bStaminaDrained = false;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "COA")
+	bool bSprinting = false;
+
+	UFUNCTION(BlueprintPure, Category = "COA")
+	float GetStaminaPercent() const;
+
 protected:
 	virtual void BeginPlay() override;
 	virtual void Tick(float DeltaTime) override;

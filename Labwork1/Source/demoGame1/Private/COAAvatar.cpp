@@ -18,6 +18,12 @@ ACOAAvatar::ACOAAvatar()
 	Camera->bUsePawnControlRotation = false;
 
 	SprintSpeed = 800.0f;
+
+	// Stamina system initialization (Avatar-only feature)
+	Stamina = 100.0f;
+	MaxStamina = 100.0f;
+	StaminaGainRate = 10.0f;
+	StaminaDrainRate = 20.0f;
 }
 
 void ACOAAvatar::BeginPlay()
@@ -29,6 +35,27 @@ void ACOAAvatar::BeginPlay()
 void ACOAAvatar::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+
+	// Stamina drain while sprinting
+	if (bSprinting && !bStaminaDrained)
+	{
+		Stamina -= StaminaDrainRate * DeltaTime;
+		if (Stamina <= 0.0f)
+		{
+			Stamina = 0.0f;
+			bStaminaDrained = true;
+			GetCharacterMovement()->MaxWalkSpeed = WalkingSpeed;
+		}
+	}
+	// Stamina regeneration while not sprinting
+	else if (!bSprinting)
+	{
+		Stamina = FMath::Min(MaxStamina, Stamina + StaminaGainRate * DeltaTime);
+		if (Stamina >= MaxStamina)
+		{
+			bStaminaDrained = false;
+		}
+	}
 
 	UpdateSpeed();
 }
@@ -83,4 +110,9 @@ void ACOAAvatar::UpdateSpeed()
 		GetCharacterMovement()->MaxWalkSpeed = SprintSpeed;
 	else
 		GetCharacterMovement()->MaxWalkSpeed = WalkingSpeed;
+}
+
+float ACOAAvatar::GetStaminaPercent() const
+{
+	return (MaxStamina > 0.0f) ? (Stamina / MaxStamina) : 0.0f;
 }
